@@ -1,32 +1,40 @@
-name: Day 4 Homework
+name: Day 5 Lab
 
 on:
   workflow_dispatch:
+    inputs:
+      app_name:
+        description: "Application Name"
+        required: true
+        default: "inventory-api"
+        type: string
 
-env:
-  APP_NAME: GitHub Actions Bootcamp
-  VERSION: "1.0"
+      environment:
+        description: "Environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
+
+      deploy:
+        description: "Deploy application?"
+        required: true
+        default: false
+        type: boolean
 
 jobs:
-  info:
+  deployment:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Print Environment Variables
+      - name: Show Input Values
         run: |
-          echo "App Name: $APP_NAME"
-          echo "Version: $VERSION"
+          echo "App: ${{ inputs.app_name }}"
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Deploy: ${{ inputs.deploy }}"
 
-      - name: Print GitHub Information
-        run: |
-          echo "Repository: ${{ github.repository }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Actor: ${{ github.actor }}"
-          echo "Runner OS: ${{ runner.os }}"
-
-      - name: This step runs only on the main branch
-        if: github.ref_name == 'main'
-        run: echo "✅ You are running this workflow on the main branch!"
+      - name: Deploy Application
+        if: ${{ inputs.deploy }}
+        run: echo "🚀 Deploying ${{ inputs.app_name }} to ${{ inputs.environment }}"
