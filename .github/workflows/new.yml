@@ -31,4 +31,4 @@ jobs:
         run: date
 
       - name: Show Files
-        run: ls -laho "Commit: ${{ github.sha }}"
+        run: ls -la
