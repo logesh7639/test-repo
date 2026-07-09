@@ -1,34 +1,32 @@
-name: Day 4 - Contexts and Variables
+name: Day 4 Homework
 
 on:
   workflow_dispatch:
 
 env:
-  COURSE: GH-200 Bootcamp
-  DAY: Day 4
+  APP_NAME: GitHub Actions Bootcamp
+  VERSION: "1.0"
 
 jobs:
   info:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Print Course Info
+      - name: Print Environment Variables
         run: |
-          echo "Course: $COURSE"
-          echo "Day: $DAY"
+          echo "App Name: $APP_NAME"
+          echo "Version: $VERSION"
 
-      - name: Print GitHub Context
+      - name: Print GitHub Information
         run: |
           echo "Repository: ${{ github.repository }}"
-          echo "Workflow: ${{ github.workflow }}"
-          echo "Actor: ${{ github.actor }}"
           echo "Branch: ${{ github.ref_name }}"
-          echo "Commit SHA: ${{ github.sha }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Runner OS: ${{ runner.os }}"
 
-      - name: Show Date
-        run: date
-
-      - name: Show Files
-        run: ls -la
+      - name: This step runs only on the main branch
+        if: github.ref_name == 'main'
+        run: echo "✅ You are running this workflow on the main branch!"
