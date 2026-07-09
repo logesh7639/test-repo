@@ -1,17 +1,34 @@
-name: GitHub Context
+name: Day 4 - Contexts and Variables
 
 on:
   workflow_dispatch:
+
+env:
+  COURSE: GH-200 Bootcamp
+  DAY: Day 4
 
 jobs:
   info:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print GitHub Information
+      - uses: actions/checkout@v4
+
+      - name: Print Course Info
+        run: |
+          echo "Course: $COURSE"
+          echo "Day: $DAY"
+
+      - name: Print GitHub Context
         run: |
           echo "Repository: ${{ github.repository }}"
+          echo "Workflow: ${{ github.workflow }}"
           echo "Actor: ${{ github.actor }}"
           echo "Branch: ${{ github.ref_name }}"
-          echo "Workflow: ${{ github.workflow }}"
-          echo "Commit: ${{ github.sha }}"
+          echo "Commit SHA: ${{ github.sha }}"
+
+      - name: Show Date
+        run: date
+
+      - name: Show Files
+        run: ls -laho "Commit: ${{ github.sha }}"
