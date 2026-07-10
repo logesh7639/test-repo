@@ -1,40 +1,64 @@
-name: Day 5 Lab
+name: Day 5 Homework - Workflow Inputs
 
 on:
   workflow_dispatch:
     inputs:
-      app_name:
-        description: "Application Name"
+      project_name:
+        description: "Enter the Project Name"
         required: true
-        default: "inventory-api"
+        default: "GitHub-Actions-Lab"
+        type: string
+
+      branch:
+        description: "Enter the Branch Name"
+        required: true
+        default: "main"
         type: string
 
       environment:
-        description: "Environment"
+        description: "Select the Environment"
         required: true
         type: choice
         options:
           - dev
-          - test
+          - qa
           - prod
 
-      deploy:
-        description: "Deploy application?"
+      run_tests:
+        description: "Run Tests?"
         required: true
         default: false
         type: boolean
 
 jobs:
-  deployment:
+  project-info:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Show Input Values
-        run: |
-          echo "App: ${{ inputs.app_name }}"
-          echo "Environment: ${{ inputs.environment }}"
-          echo "Deploy: ${{ inputs.deploy }}"
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Deploy Application
-        if: ${{ inputs.deploy }}
-        run: echo "🚀 Deploying ${{ inputs.app_name }} to ${{ inputs.environment }}"
+      - name: Display User Inputs
+        run: |
+          echo "==============================="
+          echo "Project Name : ${{ inputs.project_name }}"
+          echo "Branch Name  : ${{ inputs.branch }}"
+          echo "Environment  : ${{ inputs.environment }}"
+          echo "Run Tests    : ${{ inputs.run_tests }}"
+          echo "==============================="
+
+      - name: Running Tests
+        if: ${{ inputs.run_tests }}
+        run: |
+          echo "Running tests..."
+          echo "Executing Unit Tests..."
+          echo "All tests passed."
+
+      - name: Skip Tests
+        if: ${{ !inputs.run_tests }}
+        run: |
+          echo "Tests skipped."
+
+      - name: Deployment Summary
+        run: |
+          echo "Project ${{ inputs.project_name }} is ready for deployment to ${{ inputs.environment }}."
