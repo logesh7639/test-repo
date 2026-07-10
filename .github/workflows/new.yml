@@ -1,37 +1,15 @@
-name: Day 6 - Secrets and Variables
+name: Test Variables and Secrets
 
 on:
   workflow_dispatch:
 
-env:
-  COURSE_NAME: GH-200 Bootcamp
-
 jobs:
-  demo:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Print Variable
+        run: echo "Variable = ${{ vars.TEST_VAR }}"
 
-      - name: Display Environment Variable
-        run: |
-          echo "Course: $COURSE_NAME"
-
-      - name: Display Repository Variables
-        run: |
-          echo "Application: ${{ vars.APP_NAME }}"
-          echo "Environment: ${{ vars.ENVIRONMENT }}"
-
-      - name: Verify Secret Exists
-        run: |
-          echo "Secret loaded successfully."
-
-      - name: Use Secret
-        run: |
-          echo "Password = ${{ secrets.MY_PASSWORD }}"
-
-      - name: Display Runner Information
-        run: |
-          echo "Runner OS: ${{ runner.os }}"
-          echo "Triggered by: ${{ github.actor }}"
+      - name: Print Secret
+        run: echo "Secret = ${{ secrets.TEST_SECRET }}"
