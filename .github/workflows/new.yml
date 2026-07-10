@@ -1,64 +1,37 @@
-name: Day 5 Homework - Workflow Inputs
+name: Day 6 - Secrets and Variables
 
 on:
   workflow_dispatch:
-    inputs:
-      project_name:
-        description: "Enter the Project Name"
-        required: true
-        default: "GitHub-Actions-Lab"
-        type: string
 
-      branch:
-        description: "Enter the Branch Name"
-        required: true
-        default: "main"
-        type: string
-
-      environment:
-        description: "Select the Environment"
-        required: true
-        type: choice
-        options:
-          - dev
-          - qa
-          - prod
-
-      run_tests:
-        description: "Run Tests?"
-        required: true
-        default: false
-        type: boolean
+env:
+  COURSE_NAME: GH-200 Bootcamp
 
 jobs:
-  project-info:
+  demo:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Display User Inputs
+      - name: Display Environment Variable
         run: |
-          echo "==============================="
-          echo "Project Name : ${{ inputs.project_name }}"
-          echo "Branch Name  : ${{ inputs.branch }}"
-          echo "Environment  : ${{ inputs.environment }}"
-          echo "Run Tests    : ${{ inputs.run_tests }}"
-          echo "==============================="
+          echo "Course: $COURSE_NAME"
 
-      - name: Running Tests
-        if: ${{ inputs.run_tests }}
+      - name: Display Repository Variables
         run: |
-          echo "Running tests..."
-          echo "Executing Unit Tests..."
-          echo "All tests passed."
+          echo "Application: ${{ vars.APP_NAME }}"
+          echo "Environment: ${{ vars.ENVIRONMENT }}"
 
-      - name: Skip Tests
-        if: ${{ !inputs.run_tests }}
+      - name: Verify Secret Exists
         run: |
-          echo "Tests skipped."
+          echo "Secret loaded successfully."
 
-      - name: Deployment Summary
+      - name: Use Secret
         run: |
-          echo "Project ${{ inputs.project_name }} is ready for deployment to ${{ inputs.environment }}."
+          echo "Password = ${{ secrets.MY_PASSWORD }}"
+
+      - name: Display Runner Information
+        run: |
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Triggered by: ${{ github.actor }}"
