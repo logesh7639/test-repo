@@ -1,21 +1,28 @@
-name: Secret Demo
+name: GitHub Token Demo
 
 on:
   workflow_dispatch:
 
 jobs:
-  demo:
+  token-demo:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Display Welcome Message
-        run: echo "Welcome to GH-200 Security Lab"
-
-      - name: Access Secret
-        env:
-          PASSWORD: ${{ secrets.MY_SECRET }}
+      - name: Show Repository Information
         run: |
-          echo "Secret is available."
-          echo "GitHub automatically hides secret values."
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Branch: ${{ github.ref_name }}"
+
+      - name: Verify GITHUB_TOKEN Exists
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "$GITHUB_TOKEN" ]; then
+            echo "✅ GITHUB_TOKEN is available."
+          else
+            echo "❌ GITHUB_TOKEN is missing."
+          fi
