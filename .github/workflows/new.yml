@@ -1,25 +1,21 @@
-name: Day 7 - Upload Artifact
+name: Secret Demo
 
 on:
   workflow_dispatch:
 
 jobs:
-  upload:
+  demo:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create Report
+      - name: Display Welcome Message
+        run: echo "Welcome to GH-200 Security Lab"
+
+      - name: Access Secret
+        env:
+          PASSWORD: ${{ secrets.MY_SECRET }}
         run: |
-          echo "GH-200 Practice Report" > report.txt
-          echo "Date: $(date)" >> report.txt
-
-      - name: Show Report
-        run: cat report.txt
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: practice-report
-          path: report.txt
+          echo "Secret is available."
+          echo "GitHub automatically hides secret values."
