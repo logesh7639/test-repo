@@ -1,15 +1,25 @@
-name: Test Variables and Secrets
+name: Day 7 - Upload Artifact
 
 on:
   workflow_dispatch:
 
 jobs:
-  test:
+  upload:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print Variable
-        run: echo "Variable = ${{ vars.TEST_VAR }}"
+      - uses: actions/checkout@v4
 
-      - name: Print Secret
-        run: echo "Secret = ${{ secrets.TEST_SECRET }}"
+      - name: Create Report
+        run: |
+          echo "GH-200 Practice Report" > report.txt
+          echo "Date: $(date)" >> report.txt
+
+      - name: Show Report
+        run: cat report.txt
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: practice-report
+          path: report.txt
