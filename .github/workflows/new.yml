@@ -1,28 +1,16 @@
-name: GitHub Token Demo
+name: Runner Information
 
 on:
   workflow_dispatch:
 
 jobs:
-  token-demo:
+  runner-demo:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Show Repository Information
+      - name: Show Runner Details
         run: |
-          echo "Repository: ${{ github.repository }}"
-          echo "Actor: ${{ github.actor }}"
-          echo "Branch: ${{ github.ref_name }}"
-
-      - name: Verify GITHUB_TOKEN Exists
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [ -n "$GITHUB_TOKEN" ]; then
-            echo "✅ GITHUB_TOKEN is available."
-          else
-            echo "❌ GITHUB_TOKEN is missing."
-          fi
+          echo "Runner Name: $RUNNER_NAME"
+          echo "Runner OS: $RUNNER_OS"
+          echo "Runner Architecture: $RUNNER_ARCH"
+          echo "Workspace: $GITHUB_WORKSPACE"
