@@ -1,16 +1,14 @@
-name: Runner Information
+name: Installed Software
 
 on:
   workflow_dispatch:
 
 jobs:
-  runner-demo:
+  software:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Show Runner Details
-        run: |
-          echo "Runner Name: $RUNNER_NAME"
-          echo "Runner OS: $RUNNER_OS"
-          echo "Runner Architecture: $RUNNER_ARCH"
-          echo "Workspace: $GITHUB_WORKSPACE"
+      - run: |
+          git --version
+          node --version
+          python --version
