@@ -1,14 +1,18 @@
-name: Installed Software
+name: Concurrency Demo
 
 on:
   workflow_dispatch:
 
+concurrency:
+  group: demo
+  cancel-in-progress: true
+
 jobs:
-  software:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - run: |
-          git --version
-          node --version
-          python --version
+          echo "Testing concurrency..."
+          sleep 30
+          echo "Completed"
